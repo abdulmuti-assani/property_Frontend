@@ -1,7 +1,7 @@
 import React from "react";
-import { adminSidebarStyles as s } from "../../assets/dummyStyles";
-import { useAuth } from "../../context/AuthContext";
-import Logo from "./Logo";
+import { adminSidebarStyles as s } from "../assets/dummyStyles";
+import { useAuth } from "../context/AuthContext";
+import Logo from "./common/Logo";
 import {
   HiOutlineChatAlt2,
   HiOutlineLibrary,

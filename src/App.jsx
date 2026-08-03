@@ -10,13 +10,16 @@ import Properties from "./pages/shared/Properties";
 import PropertyDetails from "./pages/shared/PropertyDetails";
 import Profile from "./pages/shared/Profile";
 
-import AdminLayout from "./components/common/AdminLayout";
+import AdminLayout from "./components/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import SellerRequests from "./pages/admin/SellerRequests";
 import AdminProperties from "./pages/admin/AdminProperties";
 import AdminInquiries from "./pages/admin/AdminInquiries";
 import AdminContacts from "./pages/admin/AdminContacts";
+import SellerLayout from "./components/SellerLayout";
+import SellerDashboard from "./pages/seller/SellerDashboard";
+import AddProperty from "./pages/seller/AddProperty";
 
 const App = () => {
   return (
@@ -33,6 +36,10 @@ const App = () => {
         <Route path="/property/:id" element={<PropertyDetails />} />
 
         <Route path="/profile" element={<Profile />} />
+        <Route element={<SellerLayout />}>
+          <Route path="/dashboard" element={<SellerDashboard />} />
+          <Route path="/add-property" element={<AddProperty />} />
+        </Route>
 
         <Route element={<AdminLayout />}>
           <Route path="/admin-dashboard" element={<AdminDashboard />} />

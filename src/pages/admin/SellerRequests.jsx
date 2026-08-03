@@ -18,7 +18,7 @@ const SellerRequests = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/admin/pending-seller`, {
+        const res = await axios.get(`${API_URL}/api/admin/pending-sellers`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data.success) {
