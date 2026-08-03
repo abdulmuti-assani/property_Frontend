@@ -113,9 +113,7 @@ const Properties = () => {
 
     if (currentFilters.city) {
       const q = currentFilters.city.toLowerCase();
-      result = result.filter((p) =>
-        (p.city || "").toLowerCase().includes(q),
-      );
+      result = result.filter((p) => (p.city || "").toLowerCase().includes(q));
     }
     if (currentFilters.propertyType.length > 0) {
       result = result.filter((p) =>
@@ -145,9 +143,7 @@ const Properties = () => {
     } else if (currentFilters.sort === "priceHigh") {
       result.sort((a, b) => (b.price || 0) - (a.price || 0));
     } else {
-      result.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-      );
+      result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 
     return result;
@@ -476,7 +472,7 @@ const Properties = () => {
                   <HiAdjustments size={32} className={s.emptyIcon} />
                 </div>
                 <h2 className={s.emptyTitle}>No properties found</h2>
-                <p className={s.emptyText}>Broadeb your search criteria</p>
+                <p className={s.emptyText}>Broaden your search criteria</p>
                 <button onClick={resetFilters} className={s.emptyButton}>
                   Clear All
                 </button>
