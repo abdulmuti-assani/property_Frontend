@@ -27,7 +27,7 @@ const SellerDashboard = () => {
     totalViews: 0,
   });
   const [properties, setProperties] = useState([]);
-  const [inquires, setInquiries] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -35,7 +35,7 @@ const SellerDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { statsRes, propsRes, inqRes } = await Promise.all([
+        const [statsRes, propsRes, inqRes] = await Promise.all([
           axios.get(`${API_URL}/api/property/seller/dashboard`, {
             headers: { Authorization: ` Bearer ${token}` },
           }),
@@ -52,8 +52,8 @@ const SellerDashboard = () => {
           : propsRes.data.properties || [];
         setProperties(props);
         setInquiries(
-          Array.isArray(inqRes.data.inquires)
-            ? inqRes.data.inquires.slice(0, 3)
+          Array.isArray(inqRes.data.inquiries)
+            ? inqRes.data.inquiries.slice(0, 3)
             : Array.isArray(inqRes.data)
               ? inqRes.data.slice(0, 3)
               : [],
@@ -286,7 +286,7 @@ const SellerDashboard = () => {
           </p>
 
           <div className={s.inquiriesList}>
-            {inquires.map((inq, i) => (
+            {inquiries.map((inq, i) => (
               <div key={inq._id} className={s.inquiryItem}>
                 <div className={s.inquiryLeft}>
                   <div className={s.inquiryIcon}>
@@ -313,8 +313,8 @@ const SellerDashboard = () => {
                 </div>
               </div>
             ))}
-            {inquires.length === 0 && (
-              <p className={s.noInquiries}>No recent inquires .</p>
+            {inquiries.length === 0 && (
+              <p className={s.noInquiries}>No recent inquiries .</p>
             )}
           </div>
         </div>
