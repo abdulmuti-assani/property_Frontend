@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
         if (
           error.response &&
           error.response.status === 403 &&
-          error.response.data.message.includes("blocked")
+          error.response.data?.message?.includes("blocked")
         ) {
           logout();
         }
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
   //login
   const login = async (email, password) => {
     try {
-      const res = await axios.post("${API_URL}/api/auth/login", {
+      const res = await axios.post(`${API_URL}/api/auth/login`, {
         email,
         password,
       });
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }) => {
   //register
   const register = async (userData) => {
     try {
-      const res = await axios.post("${API_URL}/api/auth/register", userData);
+      const res = await axios.post(`${API_URL}/api/auth/register`, userData);
       return {
         success: true,
         message: res.data.message,
@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
-    navigate("login");
+    navigate("/login");
   };
 
   // to get the user details
