@@ -19,7 +19,7 @@ const MyProperties = () => {
   // to fetch the property coming from the server side for this seller
   const fetchMyProperties = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/property/myf`, {
+      const res = await axios.get(`${API_URL}/api/property/my`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const props = Array.isArray(res.data)
