@@ -25,7 +25,7 @@ const VerifyEmail = () => {
     setSuccess("");
 
     try {
-      const res = await axios.post(`${API_URL} / api / auth / verify - email`, {
+      const res = await axios.post(`${API_URL}/api/auth/verify-email`, {
         email,
         code,
       });
