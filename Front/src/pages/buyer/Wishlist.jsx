@@ -37,7 +37,7 @@ const Wishlist = () => {
       return;
     }
     try {
-      await axios.delete(`${API_URL}/api/wishlist/${propertyId}}`, {
+      await axios.delete(`${API_URL}/api/wishlist/${propertyId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWishlistItems((prev) =>
