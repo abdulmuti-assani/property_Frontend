@@ -108,8 +108,7 @@ const ChatMessages = () => {
     setNewMessage("");
 
     try {
-      const res = await axios.post(
-        `${API_URL}/api/chat/send`,
+      const res = await axios.post(`${API_URL}/api/chat/send`,
         {
           chatId: activeChat._id,
           text: textToSend,
@@ -153,9 +152,7 @@ const ChatMessages = () => {
     if (!window.confirm("Delete this message")) return;
 
     try {
-      const res = await axios.delete(
-        `
-${API_URL}/api/chat/${chatId}/message/${messageId}`,
+      const res = await axios.delete(`${API_URL}/api/chat/${chatId}/message/${messageId}`,
         { headers: { Authorization: `Bearer ${token}` } },
       );
       setMessages(res.data.chat.messages);
