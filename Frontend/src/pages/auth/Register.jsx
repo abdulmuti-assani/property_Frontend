@@ -35,11 +35,8 @@ const Register = () => {
     const result = await register(formData);
 
     if (result.success) {
-      setSuccess("Registration successful! Redirecting to verification ... ");
-      setTimeout(
-        () => navigate("/verify-email", { state: { email: formData.email } }),
-        1500,
-      );
+      setSuccess("Registration successful! Redirecting to sign in ... ");
+      setTimeout(() => navigate("/login"), 1500);
     } else {
       setError(result.message);
     }

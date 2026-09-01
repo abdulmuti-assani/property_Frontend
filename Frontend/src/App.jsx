@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import LandingPage from "./pages/shared/LandingPage";
 import Register from "./pages/auth/Register";
-import VerifyEmail from "./pages/auth/VerifyEmail";
 import Login from "./pages/auth/Login";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
 import Properties from "./pages/shared/Properties";
 import PropertyDetails from "./pages/shared/PropertyDetails";
 import Profile from "./pages/shared/Profile";
@@ -29,7 +26,6 @@ import {
 import { FaChevronUp } from "react-icons/fa";
 import { useAuth } from "./context/AuthContext";
 import MyInquiries from "./pages/buyer/MyInquiries";
-import ChatMessages from "./pages/shared/ChatMessages";
 import Contact from "./pages/shared/Contact";
 import Wishlist from "./pages/buyer/Wishlist";
 
@@ -99,9 +95,6 @@ const App = () => {
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/verify-email" element={<VerifyEmail />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Route>
 
         <Route path="/" element={<LandingPage />} />
@@ -115,7 +108,6 @@ const App = () => {
         >
           <Route element={<SellerLayoutWrapper />}>
             <Route path="/inquiries" element={<MyInquiries />} />
-            <Route path="/chat-messages" element={<ChatMessages />} />
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/profile" element={<Profile />} />

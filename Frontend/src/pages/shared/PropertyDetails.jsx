@@ -8,7 +8,6 @@ import API_URL from "../../config";
 import {
   HiBadgeCheck,
   HiCalendar,
-  HiChatAlt,
   HiChevronLeft,
   HiChevronRight,
   HiCollection,
@@ -161,44 +160,6 @@ const PropertyDetails = () => {
     }
   };
 
-  // to start a chat
-  const handleChatStart = async () => {
-    if (!user) return navigate("/login");
-    if (user.role !== "buyer")
-      return alert("Only buyers can chat with sellers");
-
-    if (!property?.seller?._id) {
-      alert("This is demo data — chat isn't available for it yet.");
-      return;
-    }
-
-    try {
-      const res = await axios.post(
-        `${API_URL}/api/chat/start`,
-        {
-          propertyId: id,
-          sellerId: property.seller._id,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
-      const chat = res.data;
-
-      await axios.post(
-        `${API_URL}/api/chat/send`,
-        {
-          chatId: chat._id,
-          text: `(Context: Interested in property "${property.title}")`,
-          image: property.images?.[0],
-        },
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
-    } catch (err) {
-      console.error("Error starting chat:", err);
-      alert("Failed to start chat.");
-    }
-  };
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   if (loading)
@@ -488,12 +449,6 @@ const PropertyDetails = () => {
                     <HiBadgeCheck className={s.verifiedIcon} /> Verified Seller
                   </div>
                 </div>
-              </div>
-
-              <div className={s.chatButtonWrapper}>
-                <button className={s.chatButton} onClick={handleChatStart}>
-                  <HiChatAlt /> Chat
-                </button>
               </div>
 
               {/* Inquiry Form */}

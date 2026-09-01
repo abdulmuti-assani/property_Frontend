@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { myInquiriesStyles as s } from "../../assets/dummyStyles";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../../config";
 import Navbar from "../../components/common/Navbar";
 import {
   HiCalendar,
-  HiChatAlt2,
   HiCheckCircle,
   HiExternalLink,
   HiHome,
@@ -21,7 +20,6 @@ const MyInquiries = () => {
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   // to fetch the inquiry coming from server side
   useEffect(() => {
@@ -62,25 +60,6 @@ const MyInquiries = () => {
       console.error("Failed to mark read");
     }
   };
-  const handleStartChat = async (inq) => {
-    try {
-      const res = await axios.post(
-        `${API_URL}/api/chat/start`,
-        {
-          propertyId: inq.property?._id,
-          buyerId: inq.buyer?._id,
-        },
-        {
-          headers: { Authorization: `Bearer ${token} ` },
-        },
-      );
-      navigate("/chat-messages", { state: { chat: res.data } });
-    } catch (err) {
-      console.error("Error starting chat:", err);
-      alert("Failed to start chat. Please try again.");
-    }
-  };
-
   if (loading)
     return (
       <div className={s.loaderFullPage}>
@@ -218,15 +197,6 @@ const MyInquiries = () => {
                       className={s.btnPrimaryWhitespaceNowrap}
                     >
                       Mark As Read
-                    </button>
-                  )}
-
-                  {isSeller && (
-                    <button
-                      onClick={() => handleStartChat(inq)}
-                      className={s.btnMessage}
-                    >
-                      <HiChatAlt2 /> Message
                     </button>
                   )}
                 </div>

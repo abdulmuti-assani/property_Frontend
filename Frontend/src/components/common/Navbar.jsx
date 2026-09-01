@@ -43,13 +43,6 @@ const Navbar = () => {
           >
             Wishlist
           </Link>
-          <Link
-            to="/chat-messages"
-            className={s.navLink}
-            onClick={() => setIsOpen(false)}
-          >
-            Messages
-          </Link>
 
           <Link
             to="/contact"

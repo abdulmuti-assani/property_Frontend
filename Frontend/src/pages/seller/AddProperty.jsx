@@ -287,7 +287,7 @@ const AddProperty = () => {
                   <input
                     type="text"
                     name="area"
-                    value={formData.city}
+                    value={formData.area}
                     onChange={handleInputChange}
                     placeholder="e.g. Worli"
                     className={s.input}

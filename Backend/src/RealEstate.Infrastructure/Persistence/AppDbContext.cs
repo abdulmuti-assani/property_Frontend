@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RealEstate.Application.Interfaces;
 using RealEstate.Domain.Entities;
@@ -14,6 +14,8 @@ namespace RealEstate.Infrastructure.Persistence
         public DbSet<Property> Properties => Set<Property>();
         public DbSet<PropertyImg> PropertyImages => Set<PropertyImg>();
         public DbSet<Favorite> Favorites => Set<Favorite>();
+        public DbSet<Inquiry> Inquiries => Set<Inquiry>();
+        public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
         public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,7 +23,5 @@ namespace RealEstate.Infrastructure.Persistence
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
-
     }
 }
-

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OLzERuzmTRM=",
+  "dgSpecHash": "rlVOFoLIZL0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mohammedSaleh Jalabi\\Desktop\\Real-Estate\\Property_Final_Project\\Backend\\src\\RealEstate.Infrastructure\\RealEstate.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\mohammedSaleh Jalabi\\Desktop\\FullProject-RealEstate\\property_Frontend\\Backend\\src\\RealEstate.Infrastructure\\RealEstate.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mohammedSaleh Jalabi\\.nuget\\packages\\azure.core\\1.50.0\\azure.core.1.50.0.nupkg.sha512",
     "C:\\Users\\mohammedSaleh Jalabi\\.nuget\\packages\\azure.identity\\1.17.1\\azure.identity.1.17.1.nupkg.sha512",
