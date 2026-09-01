@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import API_URL from "../../config";
 import axios from "axios";
 import { HiUpload, HiX } from "react-icons/hi";
+import { CURRENCY_SYMBOL } from "../../utils/currency";
 const EditProperty = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -297,7 +298,7 @@ const EditProperty = () => {
               </div>
               <div className={s.sectionContent}>
                 <div>
-                  <label className={s.label}>Price (₹)</label>
+                  <label className={s.label}>Price ({CURRENCY_SYMBOL})</label>
                   <input
                     type="number"
                     name="price"

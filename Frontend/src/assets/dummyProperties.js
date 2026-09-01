@@ -1,10 +1,16 @@
-// src/assets/dummyProperties.js
+import prop1 from "./properties/1.jpg";
+import prop2 from "./properties/2.jpg";
+import prop3 from "./properties/3.jpg";
+import prop4 from "./properties/4.jpg";
+import prop5 from "./properties/5.jpg";
+import prop6 from "./properties/6.jpg";
+
 export const dummyProperties = [
   {
     _id: "dummy-1",
     title: "Modern 3BHK Apartment in Downtown",
     price: 8500000,
-    images: ["https://picsum.photos/seed/prop1/600/400"],
+    images: [prop1],
     propertyType: "Flat",
     city: "Dubai",
     area: "Downtown",
@@ -19,7 +25,7 @@ export const dummyProperties = [
     _id: "dummy-2",
     title: "Luxury Villa with Private Pool",
     price: 32000000,
-    images: ["https://picsum.photos/seed/prop2/600/400"],
+    images: [prop2],
     propertyType: "Villa",
     city: "Cairo",
     area: "New Cairo",
@@ -34,7 +40,7 @@ export const dummyProperties = [
     _id: "dummy-3",
     title: "Sky Penthouse with City View",
     price: 45000000,
-    images: ["https://picsum.photos/seed/prop3/600/400"],
+    images: [prop3],
     propertyType: "Penthouse",
     city: "Riyadh",
     area: "King Fahd District",
@@ -49,7 +55,7 @@ export const dummyProperties = [
     _id: "dummy-4",
     title: "Prime Commercial Office Space",
     price: 15000000,
-    images: ["https://picsum.photos/seed/prop4/600/400"],
+    images: [prop4],
     propertyType: "Commercial",
     city: "Amman",
     area: "Abdali",
@@ -64,7 +70,7 @@ export const dummyProperties = [
     _id: "dummy-5",
     title: "Cozy 2BHK Flat Near the Beach",
     price: 6200000,
-    images: ["https://picsum.photos/seed/prop5/600/400"],
+    images: [prop5],
     propertyType: "Flat",
     city: "Alexandria",
     area: "Miami",
@@ -79,7 +85,7 @@ export const dummyProperties = [
     _id: "dummy-6",
     title: "Family Villa with Garden",
     price: 21000000,
-    images: ["https://picsum.photos/seed/prop6/600/400"],
+    images: [prop6],
     propertyType: "Villa",
     city: "Amman",
     area: "Dabouq",

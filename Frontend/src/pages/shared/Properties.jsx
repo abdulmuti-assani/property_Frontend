@@ -15,7 +15,7 @@ import axios from "axios";
 import API_URL from "../../config";
 import PropertyCard from "../../components/common/PropertyCard";
 import { dummyProperties } from "../../assets/dummyProperties";
-
+import { formatCompactPrice } from "../../utils/currency";
 const Properties = () => {
   const navigate = useNavigate();
   const { user, token } = useAuth();
@@ -325,9 +325,7 @@ const Properties = () => {
                 <div className={s.priceHeader}>
                   <label className={s.filterLabel}>Price Range</label>
                   <span className={s.priceValue}>
-                    {filters.maxPrice >= 10000000
-                      ? `₹${(filters.maxPrice / 10000000).toFixed(2)} Cr`
-                      : `₹${(filters.maxPrice / 100000).toFixed(1)} L`}
+                    {formatCompactPrice(filters.maxPrice)}
                   </span>
                 </div>
                 <input
@@ -340,8 +338,8 @@ const Properties = () => {
                   className={s.priceSlider}
                 />
                 <div className={s.priceLabels}>
-                  <span>₹1L</span>
-                  <span>₹10Cr</span>
+                  <span>{formatCompactPrice(100000)}</span>
+                  <span>{formatCompactPrice(100000000)}</span>
                 </div>
               </div>
               {/* property Type*/}

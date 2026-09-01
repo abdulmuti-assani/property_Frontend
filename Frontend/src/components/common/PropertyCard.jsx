@@ -12,6 +12,7 @@ import {
   HiOutlineUserGroup,
   HiShieldCheck,
 } from "react-icons/hi";
+import { formatPrice } from "../../utils/currency";
 
 const FALLBACK_IMAGE =
   "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%23e5e7eb'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='%239ca3af' text-anchor='middle' dominant-baseline='middle'%3ENo Image%3C/text%3E%3C/svg%3E";
@@ -40,17 +41,12 @@ const PropertyCard = ({
     }
   };
 
-  // دفاعي: أي حقل ممكن يكون ناقص من الـ API أو الـ dummy data
   const imageUrl =
     Array.isArray(property.images) && property.images.length > 0
       ? property.images[0]
       : property.image || FALLBACK_IMAGE;
 
-  const formattedPrice = new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(property.price || 0);
+  const formattedPrice = formatPrice(property.price);
 
   const statusBadgeClass = s.badgeStatus
     ? s.badgeStatus(property.status || "sale")

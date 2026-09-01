@@ -12,7 +12,7 @@ const Logo = ({
     <Link
       to="/"
       {...props}
-      className={'${s.link}  ${props.className || ""}'}
+      className={`${s.link}  ${props.className || ""}`}
       style={{ fontSize, ...props.style }}
     >
       <div className={s.iconWrapper}>

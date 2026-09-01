@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../../config";
 import { HiUpload } from "react-icons/hi";
+import { CURRENCY_SYMBOL } from "../../utils/currency";
 const AddProperty = () => {
   const navigate = useNavigate();
   const { token } = useAuth();
@@ -242,7 +243,9 @@ const AddProperty = () => {
               </div>
               <div className={s.contentGroupSmall}>
                 <div>
-                  <label className={s.labelSmallMargin}>Price (₹)</label>
+                  <label className={s.labelSmallMargin}>
+                    Price ({CURRENCY_SYMBOL})
+                  </label>
                   <input
                     type="number"
                     name="price"

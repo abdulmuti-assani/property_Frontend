@@ -22,7 +22,7 @@ import {
 } from "react-icons/hi";
 import PropertyCard from "../../components/common/PropertyCard";
 import { dummyProperties } from "../../assets/dummyProperties";
-
+import { formatPrice } from "../../utils/currency";
 const PropertyDetails = () => {
   const { id } = useParams();
   const { user, token } = useAuth();
@@ -222,11 +222,7 @@ const PropertyDetails = () => {
       ? property.images
       : ["https://via.placeholder.com/800x500?text=No+Image"];
 
-  const formattedPrice = new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(property.price || 0);
+  const formattedPrice = formatPrice(property.price);
 
   const openLightbox = (index) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
@@ -254,8 +250,7 @@ const PropertyDetails = () => {
           <div
             className={s.galleryGrid}
             style={{
-              gridTemplateColumns:
-                images.length > 1 ? "repeat(4, 1fr)" : "1fr",
+              gridTemplateColumns: images.length > 1 ? "repeat(4, 1fr)" : "1fr",
               gridTemplateRows:
                 images.length > 1 ? "repeat(2, 180px)" : "400px",
             }}
@@ -442,7 +437,7 @@ const PropertyDetails = () => {
 
               <div className={s.priceCardValue}>
                 {property.status?.toLowerCase() === "rent"
-                  ? `₹${Number(property.price || 0).toLocaleString("en-IN")}`
+                  ? formatPrice(property.price)
                   : formattedPrice}
                 {property.status?.toLowerCase() === "rent" && (
                   <span className={s.priceCardPeriod}> /month</span>
@@ -453,19 +448,13 @@ const PropertyDetails = () => {
                   <div className={s.rentDetailRow}>
                     <span className={s.rentDetailLabel}>Security Deposit</span>
                     <span className={s.rentDetailValue}>
-                      ₹
-                      {Number(property.securityDeposit || 0).toLocaleString(
-                        "en-IN",
-                      )}
+                      {formatPrice(property.securityDeposit)}
                     </span>
                   </div>
                   <div className={s.rentDetailRow}>
                     <span className={s.rentDetailLabel}>Maintenance</span>
                     <span className={s.rentDetailValue}>
-                      ₹
-                      {Number(property.maintenance || 0).toLocaleString(
-                        "en-IN",
-                      )}
+                      {formatPrice(property.maintenance)}
                       /mo
                     </span>
                   </div>

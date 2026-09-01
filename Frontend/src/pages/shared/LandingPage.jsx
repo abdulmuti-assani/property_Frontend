@@ -519,16 +519,16 @@ const LandingPage = () => {
               <ul className={s.footerLinks}>
                 <li className={s.contactInfo}>
                   <HiMail className="text-primary text-xl" />{" "}
-                  contact@reestate.com
+                  contact@realstate.com
                 </li>
                 <li className={s.contactInfo}>
-                  <HiPhone className="text-primary text-xl" /> +91 1234567890
+                  <HiPhone className="text-primary text-xl" /> 0987654321
                 </li>
                 <li className={s.contactInfoStart}>
                   <HiLocationMarker
                     className={`text-primary ${s.contactIcon}`}
                   />
-                  123 Business Hub, India
+                  123 Aleppo, Syria
                 </li>
               </ul>
             </div>
@@ -579,7 +579,7 @@ const LandingPage = () => {
                 target="_blank"
                 className={s.designLink}
               >
-                Hexagon Digital Services
+                Abdulmuti Assani Team
               </a>
             </div>
           </div>
