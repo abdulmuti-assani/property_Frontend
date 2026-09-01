@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using RealEstate.Infrastructure.Identity;
 
@@ -6,7 +6,7 @@ namespace RealEstate.Infrastructure.Persistence;
 
 public static class RoleSeeder
 {
-    private static readonly string[] Roles = { "Admin", "Customer" };
+    private static readonly string[] Roles = { "Admin", "Seller", "Buyer" };
 
     public static async Task SeedRolesAsync(this IServiceProvider serviceProvider)
     {

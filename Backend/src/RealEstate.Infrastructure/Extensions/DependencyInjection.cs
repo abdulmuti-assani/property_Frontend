@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,8 +16,11 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        services.AddSingleton<AuditableEntitySaveChangesInterceptor>();
+
+        services.AddDbContext<AppDbContext>((provider, options) =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                   .AddInterceptors(provider.GetRequiredService<AuditableEntitySaveChangesInterceptor>()));
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 
@@ -31,9 +34,17 @@ public static class DependencyInjection
         .AddDefaultTokenProviders();
 
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+        services.Configure<FileStorageSettings>(configuration.GetSection("FileStorage"));
 
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IPropertyService, PropertyService>();
+        services.AddScoped<IWishlistService, WishlistService>();
+        services.AddScoped<IInquiryService, InquiryService>();
+        services.AddScoped<IContactService, ContactService>();
+        services.AddScoped<IAdminService, AdminService>();
+        services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
         return services;
     }

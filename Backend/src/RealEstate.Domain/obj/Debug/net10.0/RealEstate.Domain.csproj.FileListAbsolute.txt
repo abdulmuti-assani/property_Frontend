@@ -10,3 +10,15 @@ C:\Users\mohammedSaleh Jalabi\Desktop\Real-Estate\Property_Final_Project\Backend
 C:\Users\mohammedSaleh Jalabi\Desktop\Real-Estate\Property_Final_Project\Backend\src\RealEstate.Domain\obj\Debug\net10.0\refint\RealEstate.Domain.dll
 C:\Users\mohammedSaleh Jalabi\Desktop\Real-Estate\Property_Final_Project\Backend\src\RealEstate.Domain\obj\Debug\net10.0\RealEstate.Domain.pdb
 C:\Users\mohammedSaleh Jalabi\Desktop\Real-Estate\Property_Final_Project\Backend\src\RealEstate.Domain\obj\Debug\net10.0\ref\RealEstate.Domain.dll
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\bin\Debug\net10.0\RealEstate.Domain.deps.json
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\bin\Debug\net10.0\RealEstate.Domain.dll
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\bin\Debug\net10.0\RealEstate.Domain.pdb
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\obj\Debug\net10.0\RealEstate.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\obj\Debug\net10.0\RealEstate.Domain.AssemblyInfoInputs.cache
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\obj\Debug\net10.0\RealEstate.Domain.AssemblyInfo.cs
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\obj\Debug\net10.0\RealEstate.Domain.csproj.CoreCompileInputs.cache
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\obj\Debug\net10.0\RealEstate.Domain.sourcelink.json
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\obj\Debug\net10.0\RealEstate.Domain.dll
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\obj\Debug\net10.0\refint\RealEstate.Domain.dll
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\obj\Debug\net10.0\RealEstate.Domain.pdb
+C:\Users\mohammedSaleh Jalabi\Desktop\FullProject-RealEstate\property_Frontend\Backend\src\RealEstate.Domain\obj\Debug\net10.0\ref\RealEstate.Domain.dll

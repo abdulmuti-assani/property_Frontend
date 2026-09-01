@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Application.DTOs.Auth;
 using RealEstate.Application.Interfaces;
-using System.Security.Claims;
+using RealEstate.WebApi.Common;
 
 namespace RealEstate.WebApi.Controllers;
 
@@ -27,11 +27,15 @@ public class AuthController : ControllerBase
         => Ok(await _authService.RefreshTokenAsync(request.RefreshToken));
 
     [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> Me()
+        => Ok(new MeResponse(true, await _authService.GetCurrentUserAsync(User.GetUserId())));
+
+    [Authorize]
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
     {
-        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        await _authService.LogoutAsync(userId);
+        await _authService.LogoutAsync(User.GetUserId());
         return NoContent();
     }
 }

@@ -1,4 +1,3 @@
-const API_URL = "http://localhost:5173";
-//if you deploy here only you have to paste the
-// live or hosted url for backend
+const API_URL = "http://localhost:5145";
+// عند النشر: ضع هنا رابط الـ Backend المستضاف
 export default API_URL;

@@ -73,9 +73,6 @@ const Login = () => {
             <div>
               <div className={s.passwordHeader}>
                 <label className={s.label}>Password</label>
-                <Link to="/forgot-password" className={s.forgotLink}>
-                  Forgot Password?
-                </Link>
               </div>
               <div style={{ position: "relative" }}>
                 <input

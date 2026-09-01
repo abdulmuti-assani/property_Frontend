@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using RealEstate.Application.Common.Models;
 using RealEstate.Application.Common.Settings;
 using RealEstate.Application.DTOs.Auth;
+using RealEstate.Application.DTOs.Users;
 using RealEstate.Application.Interfaces;
 using RealEstate.Domain.Entities;
+using RealEstate.Domain.Exceptions;
 using RealEstate.Infrastructure.Identity;
 
 namespace RealEstate.Infrastructure.Services;
 
 public class AuthService : IAuthService
 {
-    private const string DefaultRole = "Customer";
-
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenService _tokenService;
     private readonly IApplicationDbContext _context;
@@ -30,8 +31,15 @@ public class AuthService : IAuthService
         _jwtSettings = jwtSettings.Value;
     }
 
-    public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
+    public async Task<MessageResponse> RegisterAsync(RegisterRequest request)
     {
+        var roleName = (request.Role?.Trim().ToLowerInvariant()) switch
+        {
+            "buyer" => "Buyer",
+            "seller" => "Seller",
+            _ => throw new InvalidOperationException("Role must be either 'buyer' or 'seller'.")
+        };
+
         if (await _userManager.FindByEmailAsync(request.Email) is not null)
             throw new InvalidOperationException("Email is already registered.");
 
@@ -41,37 +49,47 @@ public class AuthService : IAuthService
         {
             UserName = request.Email,
             Email = request.Email,
-            PhoneNumber = request.PhoneNumber
+            EmailConfirmed = true
         };
 
         var result = await _userManager.CreateAsync(identityUser, request.Password);
         if (!result.Succeeded)
             throw new InvalidOperationException(string.Join(", ", result.Errors.Select(e => e.Description)));
 
-        var roleResult = await _userManager.AddToRoleAsync(identityUser, DefaultRole);
+        var roleResult = await _userManager.AddToRoleAsync(identityUser, roleName);
         if (!roleResult.Succeeded)
             throw new InvalidOperationException(string.Join(", ", roleResult.Errors.Select(e => e.Description)));
+
+        var (firstName, lastName) = UserMappings.SplitName(request.Name);
 
         _context.UserProfiles.Add(new User
         {
             Id = identityUser.Id, // shared PK
-            FirstName = request.FirstName,
-            LastName = request.LastName
+            FirstName = firstName,
+            LastName = lastName,
+            Email = request.Email,
+            Role = roleName,
+            IsApproved = roleName != "Seller"
         });
 
         await _context.SaveChangesAsync();
         await transaction.CommitAsync();
 
-        return await IssueTokensAsync(identityUser.Id, identityUser.Email!, new[] { DefaultRole });
+        return new MessageResponse("Registration successful. You can now sign in.");
     }
 
-    public async Task<AuthResponse> LoginAsync(LoginRequest request)
+    public async Task<AuthLoginResponse> LoginAsync(LoginRequest request)
     {
-        var user = await _userManager.FindByEmailAsync(request.EmailOrPhone)
-            ?? await _userManager.Users.FirstOrDefaultAsync(u => u.PhoneNumber == request.EmailOrPhone);
+        var user = await _userManager.FindByEmailAsync(request.Email);
 
         if (user is null || !await _userManager.CheckPasswordAsync(user, request.Password))
             throw new UnauthorizedAccessException("Invalid credentials.");
+
+        var profile = await _context.UserProfiles.FirstOrDefaultAsync(u => u.Id == user.Id)
+            ?? throw new UnauthorizedAccessException("Invalid credentials.");
+
+        if (profile.IsBlocked)
+            throw new ForbiddenException("Your account has been blocked.");
 
         var activeTokens = await _context.RefreshTokens
             .Where(rt => rt.UserId == user.Id && rt.RevokedAt == null)
@@ -81,30 +99,18 @@ public class AuthService : IAuthService
             rt.RevokedAt = DateTime.UtcNow;
 
         var roles = await _userManager.GetRolesAsync(user);
-        return await IssueTokensAsync(user.Id, user.Email!, roles);
+        var token = await IssueAccessTokenAsync(user.Id, user.Email!, roles);
+
+        return new AuthLoginResponse(token, profile.ToDto());
     }
 
-    public async Task<AuthResponse> RefreshTokenAsync(string refreshToken)
+    public async Task<UserDto> GetCurrentUserAsync(int userId)
     {
-        var incomingHash = _tokenService.HashToken(refreshToken);
+        var profile = await _context.UserProfiles.FirstOrDefaultAsync(u => u.Id == userId)
+            ?? throw new NotFoundException("User", userId);
 
-        var stored = await _context.RefreshTokens
-            .FirstOrDefaultAsync(rt => rt.TokenHash == incomingHash);
-
-        if (stored is null || !stored.IsActive)
-            throw new UnauthorizedAccessException("Invalid or expired refresh token.");
-
-        var user = await _userManager.FindByIdAsync(stored.UserId.ToString());
-        if (user is null)
-            throw new UnauthorizedAccessException("Invalid refresh token.");
-
-        stored.RevokedAt = DateTime.UtcNow; // rotation
-
-        var roles = await _userManager.GetRolesAsync(user);
-        return await IssueTokensAsync(user.Id, user.Email!, roles);
+        return profile.ToDto();
     }
-
-
 
     public async Task LogoutAsync(int userId)
     {
@@ -118,7 +124,34 @@ public class AuthService : IAuthService
         await _context.SaveChangesAsync();
     }
 
-    private async Task<AuthResponse> IssueTokensAsync(int userId, string email, IEnumerable<string> roles)
+    public async Task<AuthLoginResponse> RefreshTokenAsync(string refreshToken)
+    {
+        var incomingHash = _tokenService.HashToken(refreshToken);
+
+        var stored = await _context.RefreshTokens
+            .FirstOrDefaultAsync(rt => rt.TokenHash == incomingHash);
+
+        if (stored is null || !stored.IsActive)
+            throw new UnauthorizedAccessException("Invalid or expired refresh token.");
+
+        var user = await _userManager.FindByIdAsync(stored.UserId.ToString())
+            ?? throw new UnauthorizedAccessException("Invalid refresh token.");
+
+        var profile = await _context.UserProfiles.FirstOrDefaultAsync(u => u.Id == user.Id)
+            ?? throw new UnauthorizedAccessException("Invalid refresh token.");
+
+        if (profile.IsBlocked)
+            throw new ForbiddenException("Your account has been blocked.");
+
+        stored.RevokedAt = DateTime.UtcNow; // rotation
+
+        var roles = await _userManager.GetRolesAsync(user);
+        var token = await IssueAccessTokenAsync(user.Id, user.Email!, roles);
+
+        return new AuthLoginResponse(token, profile.ToDto());
+    }
+
+    private async Task<string> IssueAccessTokenAsync(int userId, string email, IEnumerable<string> roles)
     {
         var accessTokenResult = _tokenService.GenerateAccessToken(userId, email, roles.ToList());
         var refreshTokenValue = _tokenService.GenerateRefreshToken();
@@ -133,7 +166,6 @@ public class AuthService : IAuthService
 
         await _context.SaveChangesAsync();
 
-        return new AuthResponse(accessTokenResult.Token, refreshTokenValue, accessTokenResult.ExpiresAt);
+        return accessTokenResult.Token;
     }
-
 }
