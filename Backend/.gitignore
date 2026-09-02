@@ -1,0 +1,16 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+
+# Runtime-uploaded content — keep the folder structure and the seeded samples,
+# ignore whatever the app writes at runtime.
+src/RealEstate.API/wwwroot/uploads/properties/*
+src/RealEstate.API/wwwroot/uploads/profiles/*
+!src/RealEstate.API/wwwroot/uploads/**/.gitkeep
+
+# Local secrets
+appsettings.*.local.json

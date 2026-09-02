@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RealEstate.Domain.Entities;
 using RealEstate.Domain.Enums;
@@ -29,9 +30,12 @@ public static class DbSeeder
         using var scope = serviceProvider.CreateScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+
+        var baseUrl = (configuration["FileStorage:PublicBaseUrl"] ?? "http://localhost:5145").TrimEnd('/');
 
         await SeedAccountsAsync(userManager, context);
-        await SeedSamplePropertiesAsync(context);
+        await SeedSamplePropertiesAsync(context, baseUrl);
     }
 
     private static async Task SeedAccountsAsync(UserManager<ApplicationUser> userManager, AppDbContext context)
@@ -70,7 +74,7 @@ public static class DbSeeder
         }
     }
 
-    private static async Task SeedSamplePropertiesAsync(AppDbContext context)
+    private static async Task SeedSamplePropertiesAsync(AppDbContext context, string baseUrl)
     {
         if (await context.Properties.AnyAsync())
             return;
@@ -92,6 +96,10 @@ public static class DbSeeder
         var index = 1;
         foreach (var s in samples)
         {
+            // Images are served by this API from wwwroot/uploads/samples — no external dependency.
+            var primary = $"{baseUrl}/uploads/samples/{index}.jpg";
+            var secondary = $"{baseUrl}/uploads/samples/{(index % 6) + 1}.jpg";
+
             context.Properties.Add(new Property
             {
                 Title = s.Item1,
@@ -110,8 +118,8 @@ public static class DbSeeder
                 UserId = owner.Id,
                 PropertyImgs = new List<PropertyImg>
                 {
-                    new() { ImgUrl = $"https://picsum.photos/seed/realestate{index}/800/600", IsPrimary = true },
-                    new() { ImgUrl = $"https://picsum.photos/seed/realestate{index}b/800/600", IsPrimary = false }
+                    new() { ImgUrl = primary, IsPrimary = true },
+                    new() { ImgUrl = secondary, IsPrimary = false }
                 }
             });
             index++;

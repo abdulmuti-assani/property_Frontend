@@ -178,10 +178,17 @@ const PropertyDetails = () => {
       </div>
     );
 
+  const NO_IMAGE =
+    "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%23e5e7eb'/%3E%3Ctext x='50%25' y='50%25' font-size='28' fill='%239ca3af' text-anchor='middle' dominant-baseline='middle'%3ENo Image%3C/text%3E%3C/svg%3E";
+
   const images =
     Array.isArray(property.images) && property.images.length > 0
       ? property.images
-      : ["https://via.placeholder.com/800x500?text=No+Image"];
+      : [NO_IMAGE];
+
+  const onImgError = (e) => {
+    if (e.currentTarget.src !== NO_IMAGE) e.currentTarget.src = NO_IMAGE;
+  };
 
   const formattedPrice = formatPrice(property.price);
 
@@ -224,6 +231,7 @@ const PropertyDetails = () => {
                 src={images[0]}
                 alt="property image"
                 className={s.galleryImage}
+                onError={onImgError}
               />
             </div>
             {images.slice(1, 5).map((img, idx) => (
@@ -232,7 +240,7 @@ const PropertyDetails = () => {
                 className={s.gallerySideItem}
                 onClick={() => openLightbox(idx + 1)}
               >
-                <img src={img} alt="image" className={s.galleryImage} />
+                <img src={img} alt="image" className={s.galleryImage} onError={onImgError} />
                 {idx === 3 && images.length > 5 && (
                   <div className={s.galleryMoreOverlay}>
                     +{images.length - 5}
@@ -249,7 +257,7 @@ const PropertyDetails = () => {
                   className={s.mobileSlide}
                   onClick={() => openLightbox(idx)}
                 >
-                  <img src={img} alt="images" className={s.mobileSlideImage} />
+                  <img src={img} alt="images" className={s.mobileSlideImage} onError={onImgError} />
                   <div className={s.mobileSlideCounter}>
                     {idx + 1} / {images.length}
                   </div>
@@ -273,6 +281,7 @@ const PropertyDetails = () => {
                 src={images[lightboxIndex]}
                 alt="images"
                 className={s.lightboxImage}
+                onError={onImgError}
               />
               {images.length > 1 && (
                 <>
