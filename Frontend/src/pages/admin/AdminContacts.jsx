@@ -62,7 +62,7 @@ const AdminContacts = () => {
                 <div className={s.contactHeader}>
                   <div className=" flex gap-5">
                     <div className={s.avatarWrapper(contact.role)}>
-                      {contact.name.charAt(0).toUpperCase()}
+                      {(contact.name || "?").charAt(0).toUpperCase()}
                     </div>
                     <div>
                       <div className={s.nameBadgeContainer}>

@@ -81,7 +81,7 @@ const SellerRequests = () => {
                 <div key={request._id} className={s.requestCard}>
                   <div className={s.requestHeader}>
                     <div className={s.avatar}>
-                      {request.name.charAt(0).toUpperCase()}
+                      {(request.name || "?").charAt(0).toUpperCase()}
                     </div>
                     <div>
                       <div className={s.requestName}>{request.name}</div>

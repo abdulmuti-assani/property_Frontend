@@ -216,12 +216,12 @@ const AdminUsers = () => {
                     <td className={s.tdUserInfo}>
                       <div className=" flex items-center gap-4">
                         <div className={s.userAvatar}>
-                          {user.name.charAt(0).toUpperCase()}
+                          {(user.name || "?").charAt(0).toUpperCase()}
                         </div>
                         <div>
                           <div className={s.userInfoName}>{user.name}</div>
                           <div className={s.userInfoId}>
-                            ID: {user._id.slice(-8).toUpperCase()}
+                            ID: {String(user._id).slice(-8).toUpperCase()}
                           </div>
                         </div>
                       </div>
