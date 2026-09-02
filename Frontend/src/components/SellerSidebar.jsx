@@ -11,8 +11,8 @@ import {
   HiOutlineViewGrid,
 } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
-const SellerSidebar = ({ isOpen, onClosq }) => {
-  const { logout, user } = useAuth();
+const SellerSidebar = ({ isOpen, onClose }) => {
+  const { logout } = useAuth();
   const navItems = [
     { name: "Dashboard", icon: HiOutlineViewGrid, path: "/dashboard" },
     {
@@ -26,10 +26,9 @@ const SellerSidebar = ({ isOpen, onClosq }) => {
   ];
   return (
     <>
-      {" "}
       <div
         className={`${s.backdrop} ${isOpen ? s.backdropVisible : s.backdropHidden} `}
-        onClick={onclose}
+        onClick={onClose}
       />
       <aside
         className={`${s.sidebar} ${isOpen ? s.sidebarOpen : s.sidebarClosed}`}
@@ -43,7 +42,7 @@ const SellerSidebar = ({ isOpen, onClosq }) => {
             <NavLink
               key={item.name}
               to={item.path}
-              onClick={onclose}
+              onClick={onClose}
               className={({ isActive }) =>
                 `${s.navLink} ${isActive ? s.navLinkActive : s.navLinkInactive}`
               }
@@ -56,7 +55,7 @@ const SellerSidebar = ({ isOpen, onClosq }) => {
         <div className={s.logoutContainer}>
           <button
             onClick={() => {
-              onclose();
+              onClose();
               logout();
             }}
             className={s.logoutButton}

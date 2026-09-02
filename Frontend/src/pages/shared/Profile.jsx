@@ -7,13 +7,14 @@ import API_URL from "../../config";
 import {
   HiCheck,
   HiOutlineLocationMarker,
+  HiOutlineLogout,
   HiOutlineMail,
   HiOutlinePhone,
   HiOutlineUser,
   HiX,
 } from "react-icons/hi";
 const Profile = () => {
-  const { user, setUser, token } = useAuth();
+  const { user, setUser, token, logout } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -249,6 +250,13 @@ const Profile = () => {
                   className={s.editProfileButton}
                 >
                   Edit Profile Details
+                </button>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="mt-3 w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-red-200 bg-red-50 text-[#dc2626] font-semibold cursor-pointer hover:bg-red-100 transition-colors"
+                >
+                  <HiOutlineLogout size={20} /> Logout
                 </button>
               </div>
             </div>

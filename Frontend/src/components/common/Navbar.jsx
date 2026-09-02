@@ -126,6 +126,13 @@ const Navbar = () => {
                       className={s.avatar}
                     />
                   </Link>
+                  <button
+                    type="button"
+                    onClick={logout}
+                    className={s.logoutButton}
+                  >
+                    Logout
+                  </button>
                 </div>
               ) : null}
 
@@ -173,7 +180,13 @@ const Navbar = () => {
               </div>
             </div>
 
-            <button onClick={logout} className={s.drawerLogoutButton}>
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                logout();
+              }}
+              className={s.drawerLogoutButton}
+            >
               Logout
             </button>
           </div>
