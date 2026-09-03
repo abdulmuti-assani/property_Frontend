@@ -6,6 +6,18 @@ import axios from "axios";
 import API_URL from "../../config";
 import { HiUpload } from "react-icons/hi";
 import { CURRENCY_SYMBOL } from "../../utils/currency";
+
+// The API rejects empty strings for these fields (they bind to number types),
+// so any blank numeric field is sent as 0.
+const NUMERIC_FIELDS = [
+  "price",
+  "bhk",
+  "bathrooms",
+  "areaSize",
+  "securityDeposit",
+  "maintenance",
+];
+
 const AddProperty = () => {
   const navigate = useNavigate();
   const { token } = useAuth();
@@ -81,6 +93,8 @@ const AddProperty = () => {
     Object.keys(formData).forEach((key) => {
       if (key === "amenities") {
         formData[key].forEach((a) => data.append("amenities", a));
+      } else if (NUMERIC_FIELDS.includes(key)) {
+        data.append(key, formData[key] === "" ? 0 : formData[key]);
       } else {
         data.append(key, formData[key]);
       }
@@ -179,6 +193,8 @@ const AddProperty = () => {
                       onChange={handleInputChange}
                       placeholder="e.g. 3"
                       className={s.input}
+                      min="0"
+                      required
                     />
                   </div>
                   <div>
@@ -190,6 +206,8 @@ const AddProperty = () => {
                       onChange={handleInputChange}
                       placeholder="e.g. 2"
                       className={s.input}
+                      min="0"
+                      required
                     />
                   </div>
                   <div>
@@ -201,6 +219,7 @@ const AddProperty = () => {
                       onChange={handleInputChange}
                       placeholder="e.g. 1500"
                       className={s.input}
+                      min="1"
                       required
                     />
                   </div>
@@ -253,6 +272,7 @@ const AddProperty = () => {
                     onChange={handleInputChange}
                     placeholder="e.g. 5000000"
                     className={s.input}
+                    min="1"
                     required
                   />
                 </div>
