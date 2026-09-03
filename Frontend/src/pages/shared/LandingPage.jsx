@@ -71,28 +71,32 @@ const LandingPage = () => {
     }
   };
 
-  //to remove a wishlist
+  // toggle wishlist (optimistic: flip the heart immediately, revert on failure)
   const handleToggleWishlist = async (propertyId) => {
+    const id = String(propertyId);
+    const wasWishlisted = wishlistedIds.includes(id);
+
+    setWishlistedIds((prev) =>
+      wasWishlisted ? prev.filter((x) => x !== id) : [...prev, id],
+    );
+
     try {
-      const isWishlisted = wishlistedIds.includes(propertyId);
-      if (isWishlisted) {
-        await axios.delete(`${API_URL}/api/wishlist/${propertyId}`, {
+      if (wasWishlisted) {
+        await axios.delete(`${API_URL}/api/wishlist/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setWishlistedIds((prev) => prev.filter((id) => id !== propertyId));
       } else {
         await axios.post(
-          `${API_URL}/api/wishlist/${propertyId}`,
+          `${API_URL}/api/wishlist/${id}`,
           {},
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        ); //to add
-
-        setWishlistedIds((prev) => [...prev, propertyId]);
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
       }
     } catch (err) {
       console.error("Failed to toggle wishlist:", err);
+      setWishlistedIds((prev) =>
+        wasWishlisted ? [...prev, id] : prev.filter((x) => x !== id),
+      );
     }
   };
 

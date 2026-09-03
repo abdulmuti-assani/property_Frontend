@@ -36,13 +36,14 @@ const Wishlist = () => {
       alert("Invalid Property ID");
       return;
     }
+    const id = String(propertyId);
     try {
-      await axios.delete(`${API_URL}/api/wishlist/${propertyId}`, {
+      await axios.delete(`${API_URL}/api/wishlist/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWishlistItems((prev) =>
         prev.filter(
-          (item) => item.property && item.property._id !== propertyId,
+          (item) => item.property && String(item.property._id) !== id,
         ),
       );
     } catch (err) {
@@ -89,6 +90,8 @@ const Wishlist = () => {
                 <PropertyCard
                   key={item._id}
                   property={item.property}
+                  isWishlisted={true}
+                  onToggleWishlist={() => removeFromWishlist(item.property._id)}
                   renderActions={() => (
                     <button
                       onClick={(e) => {

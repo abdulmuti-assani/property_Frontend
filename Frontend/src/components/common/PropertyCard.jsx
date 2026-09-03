@@ -37,7 +37,7 @@ const PropertyCard = ({
       return;
     }
     if (onToggleWishlist) {
-      onToggleWishlist(property._id);
+      onToggleWishlist(String(property._id));
     }
   };
 

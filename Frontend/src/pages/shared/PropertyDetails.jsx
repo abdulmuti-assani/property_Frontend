@@ -74,7 +74,9 @@ const PropertyDetails = () => {
               headers: { Authorization: `Bearer ${token}` },
             });
             const found = Array.isArray(wishRes.data)
-              ? wishRes.data.some((item) => item.property?._id === id)
+              ? wishRes.data.some(
+                  (item) => String(item.property?._id) === String(id),
+                )
               : false;
             setIsInWishlist(found);
           } catch (wishErr) {
@@ -110,26 +112,27 @@ const PropertyDetails = () => {
     fetchDetails();
   }, [id, user, token]);
 
-  //  to handle wishlist toggle
+  //  to handle wishlist toggle (optimistic: flip immediately, revert on failure)
   const handleWishlistToggle = async () => {
     if (!user) return navigate("/login");
+
+    const wasInWishlist = isInWishlist;
+    setIsInWishlist(!wasInWishlist);
+
     try {
-      if (isInWishlist) {
+      if (wasInWishlist) {
         await axios.delete(`${API_URL}/api/wishlist/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setIsInWishlist(false);
       } else {
         await axios.post(
           `${API_URL}/api/wishlist/${id}`,
           {},
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
+          { headers: { Authorization: `Bearer ${token}` } },
         );
-        setIsInWishlist(true);
       }
     } catch (err) {
+      setIsInWishlist(wasInWishlist);
       alert("Failed to update wishlist.");
     }
   };
