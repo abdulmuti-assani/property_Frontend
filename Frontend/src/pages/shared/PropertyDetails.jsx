@@ -315,7 +315,7 @@ const PropertyDetails = () => {
                 <p className={s.propertyLocation}>
                   <HiLocationMarker className={s.locationIcon} />
                   <span className={s.locationText}>
-                    {property.area}, {property.city}, India
+                    {property.area}, {property.city}, Syria
                   </span>
                 </p>
               </div>
