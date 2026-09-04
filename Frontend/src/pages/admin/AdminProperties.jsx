@@ -4,7 +4,11 @@ import { useAuth } from "../../context/AuthContext";
 import PropertyCard from "../../components/common/PropertyCard";
 import axios from "axios";
 import API_URL from "../../config";
-import { HiOutlineExternalLink, HiOutlineTrash } from "react-icons/hi";
+import {
+  HiOutlineCheck,
+  HiOutlineExternalLink,
+  HiOutlineTrash,
+} from "react-icons/hi";
 import { Link } from "react-router-dom";
 const AdminProperties = () => {
   const [properties, setProperties] = useState([]);
@@ -31,6 +35,21 @@ const AdminProperties = () => {
     };
     fetchProperties();
   }, []);
+  // to approve a pending property so it goes live on the site
+  const handleApprove = async (id) => {
+    try {
+      await axios.patch(
+        `${API_URL}/api/admin/properties/${id}/approve`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      setProperties((prev) =>
+        prev.map((p) => (p._id === id ? { ...p, isApproved: true } : p)),
+      );
+    } catch (err) {
+      alert("Failed to approve property");
+    }
+  };
   // to delete a particular property
   const handleDelete = async (id) => {
     if (
@@ -77,6 +96,9 @@ const AdminProperties = () => {
                 property={p}
                 renderActions={() => (
                   <div className={s.actionWrapper}>
+                    <span className={s.statusBadge(p.isApproved)}>
+                      {p.isApproved ? "Live" : "Pending Review"}
+                    </span>
                     <div className={s.sellerInfo}>
                       <div className={s.sellerName}>
                         Seller: {p.seller?.name || "Unknown"}
@@ -88,6 +110,16 @@ const AdminProperties = () => {
                       <Link to={`/property/${p._id}`} className={s.viewLink}>
                         <HiOutlineExternalLink size={16} />
                       </Link>
+
+                      {!p.isApproved && (
+                        <button
+                          onClick={() => handleApprove(p._id)}
+                          className={s.approveButton}
+                          title="Approve & Publish"
+                        >
+                          <HiOutlineCheck size={16} />
+                        </button>
+                      )}
 
                       <button
                         onClick={() => handleDelete(p._id)}

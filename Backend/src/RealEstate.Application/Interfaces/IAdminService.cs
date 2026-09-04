@@ -11,6 +11,7 @@ namespace RealEstate.Application.Interfaces
         Task DeleteUserAsync(int userId);
         Task<List<PropertyDto>> GetPropertiesAsync();
         Task DeletePropertyAsync(int propertyId);
+        Task ApprovePropertyAsync(int propertyId);
         Task<PendingSellersResponse> GetPendingSellersAsync();
         Task ApproveSellerAsync(int userId);
     }

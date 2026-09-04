@@ -29,6 +29,7 @@ internal static class PropertyMappings
         p.Views,
         p.SecurityDeposit,
         p.Maintenance,
+        p.IsApproved,
         new PropertySellerDto(
             p.User.Id,
             $"{p.User.FirstName} {p.User.LastName}".Trim(),

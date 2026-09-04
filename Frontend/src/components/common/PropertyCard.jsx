@@ -82,6 +82,9 @@ const PropertyCard = ({
               <span className={s.badgeVerified}>
                 <HiShieldCheck size={14} /> Verified
               </span>
+              {property.isApproved === false && (
+                <span className={s.badgePending}>Pending Review</span>
+              )}
             </div>
 
             {(!user || user.role === "buyer") && (

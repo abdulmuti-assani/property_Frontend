@@ -23,6 +23,9 @@ public class Property : AuditableEntity
     public decimal Maintenance { get; set; }
     public int Views { get; set; }
 
+    // New listings stay hidden from public browsing until an admin approves them.
+    public bool IsApproved { get; set; }
+
     public List<string> Amenities { get; set; } = new();
 
     public int UserId { get; set; }

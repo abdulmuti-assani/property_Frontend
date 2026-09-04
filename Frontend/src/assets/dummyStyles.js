@@ -114,12 +114,20 @@ export const adminPropertiesStyles = {
     "grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8 justify-items-center max-sm:grid-cols-1 max-sm:px-4",
 
   // Inside PropertyCard renderActions
-  actionWrapper: "flex-1 flex gap-2 items-center",
+  actionWrapper: "flex-1 flex flex-col gap-2",
   sellerInfo: "text-[0.75rem] text-[#64748b] flex-1",
   sellerName: "font-bold",
   sellerEmail: "text-[0.7rem]",
+  statusBadge: (isApproved) =>
+    `inline-block w-fit text-[0.7rem] font-bold uppercase px-2 py-0.5 rounded-full ${
+      isApproved
+        ? "bg-[#dcfce7] text-[#166534]"
+        : "bg-[#fef9c3] text-[#854d0e]"
+    }`,
   buttonGroup: "flex gap-1",
   viewLink: "btn btn-outline p-2",
+  approveButton:
+    "btn bg-[#dcfce7] text-[#166534] p-2 border border-[#bbf7d0] hover:bg-green-100",
   deleteButton:
     "btn bg-[#fef2f2] text-[#dc2626] p-2 border border-[#fee2e2] hover:bg-red-100",
 };
@@ -1478,6 +1486,8 @@ export const propertyCardStyles = {
     "bg-white/90 px-3 py-1 rounded-full text-xs font-bold uppercase text-text-main backdrop-blur",
   badgeVerified:
     "bg-primary text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 uppercase",
+  badgePending:
+    "bg-[#f59e0b] text-white px-3 py-1 rounded-full text-xs font-extrabold uppercase backdrop-blur shadow-[0_2px_8px_rgba(0,0,0,0.1)]",
   wishlistButton: (isWishlisted) =>
     `flex items-center justify-center w-8 h-8 rounded-full border-none cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.1)] transition-all duration-200 z-[15] hover:text-red-500 hover:scale-110 hover:bg-white ${isWishlisted ? "text-red-500 bg-white" : "text-[#64748b] bg-white/90"}`,
   priceOverlay:

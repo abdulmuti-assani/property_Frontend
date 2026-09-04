@@ -23,6 +23,7 @@ public record PropertyDto(
     int Views,
     decimal SecurityDeposit,
     decimal Maintenance,
+    bool IsApproved,
     PropertySellerDto Seller,
     DateTimeOffset CreatedAt);
 

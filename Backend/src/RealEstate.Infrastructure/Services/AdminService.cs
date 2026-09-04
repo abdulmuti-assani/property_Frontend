@@ -119,6 +119,15 @@ public class AdminService : IAdminService
         await _context.SaveChangesAsync();
     }
 
+    public async Task ApprovePropertyAsync(int propertyId)
+    {
+        var property = await _context.Properties.FirstOrDefaultAsync(p => p.Id == propertyId)
+            ?? throw new NotFoundException(nameof(Property), propertyId);
+
+        property.IsApproved = true;
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<PendingSellersResponse> GetPendingSellersAsync()
     {
         var pending = await _context.UserProfiles

@@ -35,7 +35,7 @@ public class PropertyController : ControllerBase
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById(int id)
-        => Ok(await _propertyService.GetByIdAsync(id));
+        => Ok(await _propertyService.GetByIdAsync(id, User.TryGetUserId(), User.IsInRole("Admin")));
 
     [Authorize(Roles = "Seller")]
     [HttpPost]

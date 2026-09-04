@@ -23,7 +23,7 @@ public class PropertyService : IPropertyService
 
     public async Task<List<PropertyDto>> GetAllAsync(PropertyFilterRequest filter)
     {
-        var query = BaseQuery();
+        var query = BaseQuery().Where(p => p.IsApproved);
 
         if (!string.IsNullOrWhiteSpace(filter.City))
         {
@@ -64,6 +64,7 @@ public class PropertyService : IPropertyService
     public async Task<PropertyCountsResponse> GetCountsAsync()
     {
         var grouped = await _context.Properties
+            .Where(p => p.IsApproved)
             .GroupBy(p => p.PropertyType)
             .Select(g => new { Type = g.Key, Count = g.Count() })
             .ToListAsync();
@@ -79,16 +80,21 @@ public class PropertyService : IPropertyService
         return new PropertyCountsResponse(true, counts);
     }
 
-    public async Task<PropertyDetailsResponse> GetByIdAsync(int id)
+    public async Task<PropertyDetailsResponse> GetByIdAsync(int id, int? viewerId, bool viewerIsAdmin)
     {
         var property = await BaseQuery().FirstOrDefaultAsync(p => p.Id == id)
             ?? throw new NotFoundException(nameof(Property), id);
+
+        var isOwner = viewerId.HasValue && property.UserId == viewerId.Value;
+        if (!property.IsApproved && !isOwner && !viewerIsAdmin)
+            throw new NotFoundException(nameof(Property), id);
 
         property.Views += 1;
         await _context.SaveChangesAsync();
 
         var similar = await BaseQuery()
-            .Where(p => p.Id != id && (p.PropertyType == property.PropertyType || p.City == property.City))
+            .Where(p => p.Id != id && p.IsApproved &&
+                        (p.PropertyType == property.PropertyType || p.City == property.City))
             .OrderByDescending(p => p.CreatedAtUtc)
             .Take(6)
             .ToListAsync();
@@ -141,7 +147,8 @@ public class PropertyService : IPropertyService
             SecurityDeposit = request.SecurityDeposit,
             Maintenance = request.Maintenance,
             Amenities = request.Amenities ?? new List<string>(),
-            UserId = sellerId
+            UserId = sellerId,
+            IsApproved = false // stays hidden from public browsing until an admin approves it
         };
 
         var images = request.Images ?? new List<Microsoft.AspNetCore.Http.IFormFile>();

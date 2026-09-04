@@ -49,6 +49,13 @@ public class AdminController : ControllerBase
         return Ok(new SuccessResponse());
     }
 
+    [HttpPatch("properties/{id:int}/approve")]
+    public async Task<IActionResult> ApproveProperty(int id)
+    {
+        await _adminService.ApprovePropertyAsync(id);
+        return Ok(new SuccessResponse());
+    }
+
     [HttpGet("pending-sellers")]
     public async Task<IActionResult> GetPendingSellers()
         => Ok(await _adminService.GetPendingSellersAsync());

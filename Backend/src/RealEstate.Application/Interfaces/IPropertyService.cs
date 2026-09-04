@@ -6,7 +6,7 @@ namespace RealEstate.Application.Interfaces
     {
         Task<List<PropertyDto>> GetAllAsync(PropertyFilterRequest filter);
         Task<PropertyCountsResponse> GetCountsAsync();
-        Task<PropertyDetailsResponse> GetByIdAsync(int id);
+        Task<PropertyDetailsResponse> GetByIdAsync(int id, int? viewerId, bool viewerIsAdmin);
         Task<List<PropertyDto>> GetMineAsync(int sellerId);
         Task<SellerDashboardResponse> GetSellerDashboardAsync(int sellerId);
         Task<PropertySavedResponse> CreateAsync(int sellerId, CreatePropertyRequest request);

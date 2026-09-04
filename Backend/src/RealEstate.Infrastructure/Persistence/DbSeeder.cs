@@ -141,6 +141,8 @@ public static class DbSeeder
                 Amenities = p.Amenities.ToList(),
                 Views = p.Views,
                 UserId = owner.Id,
+                IsApproved = true, // the site's own demo listings are live immediately
+
                 PropertyImgs = new List<PropertyImg>
                 {
                     new() { ImgUrl = ImageUrl(p.Image1), IsPrimary = true },
