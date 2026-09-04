@@ -96,9 +96,12 @@ public static class DbSeeder
         var index = 1;
         foreach (var s in samples)
         {
-            // Images are served by this API from wwwroot/uploads/samples — no external dependency.
-            var primary = $"{baseUrl}/uploads/samples/{index}.jpg";
-            var secondary = $"{baseUrl}/uploads/samples/{(index % 6) + 1}.jpg";
+            // Each seeded property gets only its own sample photo (samples/{index}.jpg).
+            // A previous version also attached samples/{index+1}.jpg as a "second" photo,
+            // which meant every listing showed an unrelated property's picture alongside
+            // its own — there's only one genuine photo per sample, so don't pad with
+            // another listing's image just to have a gallery.
+            var imageUrl = $"{baseUrl}/uploads/samples/{index}.jpg";
 
             context.Properties.Add(new Property
             {
@@ -118,8 +121,7 @@ public static class DbSeeder
                 UserId = owner.Id,
                 PropertyImgs = new List<PropertyImg>
                 {
-                    new() { ImgUrl = primary, IsPrimary = true },
-                    new() { ImgUrl = secondary, IsPrimary = false }
+                    new() { ImgUrl = imageUrl, IsPrimary = true }
                 }
             });
             index++;
