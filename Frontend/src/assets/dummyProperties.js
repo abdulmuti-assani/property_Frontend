@@ -4,16 +4,28 @@ import prop3 from "./properties/3.jpg";
 import prop4 from "./properties/4.jpg";
 import prop5 from "./properties/5.jpg";
 import prop6 from "./properties/6.jpg";
+import prop7 from "./properties/7.jpg";
+import prop8 from "./properties/8.jpg";
+import prop9 from "./properties/9.jpg";
+import prop10 from "./properties/10.jpg";
+import prop11 from "./properties/11.jpg";
+import prop12 from "./properties/12.jpg";
+import prop13 from "./properties/13.jpg";
+import prop14 from "./properties/14.jpg";
+import prop15 from "./properties/15.jpg";
+import prop16 from "./properties/16.jpg";
+import prop17 from "./properties/17.jpg";
+import prop18 from "./properties/18.jpg";
 
 export const dummyProperties = [
   {
     _id: "dummy-1",
-    title: "Modern 3BHK Apartment in Downtown",
+    title: "Modern 3BHK Apartment in Mezzeh",
     price: 8500000,
-    images: [prop1],
+    images: [prop1, prop2, prop3],
     propertyType: "Flat",
-    city: "Dubai",
-    area: "Downtown",
+    city: "Damascus",
+    area: "Mezzeh",
     areaSize: 1450,
     bhk: 3,
     bathrooms: 2,
@@ -25,10 +37,10 @@ export const dummyProperties = [
     _id: "dummy-2",
     title: "Luxury Villa with Private Pool",
     price: 32000000,
-    images: [prop2],
+    images: [prop4, prop5, prop6],
     propertyType: "Villa",
-    city: "Cairo",
-    area: "New Cairo",
+    city: "Aleppo",
+    area: "Al Furqan",
     areaSize: 4200,
     bhk: 5,
     bathrooms: 4,
@@ -38,12 +50,12 @@ export const dummyProperties = [
   },
   {
     _id: "dummy-3",
-    title: "Sky Penthouse with City View",
+    title: "Sky Penthouse with Sea View",
     price: 45000000,
-    images: [prop3],
+    images: [prop7, prop8, prop9],
     propertyType: "Penthouse",
-    city: "Riyadh",
-    area: "King Fahd District",
+    city: "Lattakia",
+    area: "Al Ziraa",
     areaSize: 3100,
     bhk: 4,
     bathrooms: 3,
@@ -55,10 +67,10 @@ export const dummyProperties = [
     _id: "dummy-4",
     title: "Prime Commercial Office Space",
     price: 15000000,
-    images: [prop4],
+    images: [prop10, prop11, prop12],
     propertyType: "Commercial",
-    city: "Amman",
-    area: "Abdali",
+    city: "Damascus",
+    area: "Al Salihiyah",
     areaSize: 2200,
     bhk: 0,
     bathrooms: 2,
@@ -68,12 +80,12 @@ export const dummyProperties = [
   },
   {
     _id: "dummy-5",
-    title: "Cozy 2BHK Flat Near the Beach",
+    title: "Cozy 2BHK Flat Near the Coast",
     price: 6200000,
-    images: [prop5],
+    images: [prop13, prop14, prop15],
     propertyType: "Flat",
-    city: "Alexandria",
-    area: "Miami",
+    city: "Tartus",
+    area: "City Center",
     areaSize: 980,
     bhk: 2,
     bathrooms: 1,
@@ -85,10 +97,10 @@ export const dummyProperties = [
     _id: "dummy-6",
     title: "Family Villa with Garden",
     price: 21000000,
-    images: [prop6],
+    images: [prop16, prop17, prop18],
     propertyType: "Villa",
-    city: "Amman",
-    area: "Dabouq",
+    city: "Homs",
+    area: "Al Waer",
     areaSize: 3300,
     bhk: 4,
     bathrooms: 3,
