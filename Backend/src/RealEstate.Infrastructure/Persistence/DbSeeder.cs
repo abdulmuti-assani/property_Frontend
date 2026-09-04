@@ -25,6 +25,44 @@ public static class DbSeeder
         new("guest2@test.com", "Test1234!",  "Buyer",  "Guest", "Two",   "0500000004", true),
     };
 
+    // Mirrors Frontend/src/assets/dummyProperties.js so the same Syrian-market
+    // listings appear whether the API is reachable or the frontend falls back
+    // to its bundled dummy data. Image1-3 are wwwroot/uploads/dummy/{n}.jpg,
+    // copied from Frontend/src/assets/properties/{n}.jpg.
+    private sealed record SeedProperty(
+        string Title, string Description, decimal Price, string City, string Area,
+        PropertyType Type, PropertyStatus Status, Furnishing Furnishing,
+        int Bhk, int Bathrooms, int AreaSize, string[] Amenities, int Views,
+        int Image1, int Image2, int Image3);
+
+    private static readonly SeedProperty[] Properties =
+    {
+        new("Modern 3BHK Apartment in Mezzeh",
+            "Bright, high-floor apartment in Mezzeh with modern finishes and easy access to central Damascus.",
+            8500000m, "Damascus", "Mezzeh", PropertyType.Flat, PropertyStatus.Sale, Furnishing.Furnished,
+            3, 2, 1450, new[] { "Parking", "Security", "Wifi" }, 128, 1, 2, 3),
+        new("Luxury Villa with Private Pool",
+            "Spacious family villa in Al Furqan featuring a private pool, landscaped garden, and premium finishes.",
+            32000000m, "Aleppo", "Al Furqan", PropertyType.Villa, PropertyStatus.Sale, Furnishing.SemiFurnished,
+            5, 4, 4200, new[] { "Pool", "Garden", "Parking", "Security" }, 342, 4, 5, 6),
+        new("Sky Penthouse with Sea View",
+            "Full-floor penthouse in Al Ziraa with panoramic Mediterranean sea views and a private terrace.",
+            45000000m, "Lattakia", "Al Ziraa", PropertyType.Penthouse, PropertyStatus.Sale, Furnishing.Furnished,
+            4, 3, 3100, new[] { "Security", "Power Backup", "Club House" }, 567, 7, 8, 9),
+        new("Prime Commercial Office Space",
+            "Ground-floor commercial space in Al Salihiyah with excellent footfall, ideal for retail or office use.",
+            15000000m, "Damascus", "Al Salihiyah", PropertyType.Commercial, PropertyStatus.Rent, Furnishing.Unfurnished,
+            0, 2, 2200, new[] { "Parking", "Power Backup" }, 89, 10, 11, 12),
+        new("Cozy 2BHK Flat Near the Coast",
+            "Well-maintained flat in the heart of Tartus, just minutes from the coastline and city amenities.",
+            6200000m, "Tartus", "City Center", PropertyType.Flat, PropertyStatus.Sale, Furnishing.SemiFurnished,
+            2, 1, 980, new[] { "Parking", "Wifi" }, 210, 13, 14, 15),
+        new("Family Villa with Garden",
+            "Quiet family villa in Al Waer with a private garden, close to parks and schools.",
+            21000000m, "Homs", "Al Waer", PropertyType.Villa, PropertyStatus.Sale, Furnishing.SemiFurnished,
+            4, 3, 3300, new[] { "Garden", "Parking", "Club House", "Security" }, 175, 16, 17, 18),
+    };
+
     public static async Task SeedAsync(this IServiceProvider serviceProvider)
     {
         using var scope = serviceProvider.CreateScope();
@@ -83,48 +121,33 @@ public static class DbSeeder
         if (owner is null)
             return;
 
-        var samples = new[]
-        {
-            ("Modern 3BHK Apartment in Downtown", "Bright, high-floor apartment with skyline views and premium finishes.", 850000m, "Dubai", "Downtown", PropertyType.Flat, PropertyStatus.Sale, Furnishing.Furnished, 3, 2, 1450, new[] { "Parking", "Pool", "Gym", "Security" }),
-            ("Luxury Villa with Private Garden", "Spacious family villa with a landscaped garden and maid's room.", 2200000m, "Dubai", "Emirates Hills", PropertyType.Villa, PropertyStatus.Sale, Furnishing.SemiFurnished, 5, 6, 6200, new[] { "Parking", "Garden", "Security", "Club House" }),
-            ("Sea-View Penthouse", "Full-floor penthouse with a wraparound terrace and private lift.", 4100000m, "Dubai", "Palm Jumeirah", PropertyType.Penthouse, PropertyStatus.Sale, Furnishing.Furnished, 4, 5, 5400, new[] { "Pool", "Gym", "Security", "Power Backup" }),
-            ("Cozy 1BHK for Rent", "Well-maintained unit close to the metro, ideal for young professionals.", 12000m, "Dubai", "JLT", PropertyType.Flat, PropertyStatus.Rent, Furnishing.Unfurnished, 1, 1, 720, new[] { "Parking", "Security", "Wifi" }),
-            ("Retail Shop on Main Road", "Ground-floor commercial space with excellent footfall and frontage.", 320000m, "Sharjah", "Al Nahda", PropertyType.Commercial, PropertyStatus.Sale, Furnishing.Unfurnished, 0, 2, 1100, new[] { "Parking", "Power Backup" }),
-            ("Family Villa Near Park", "Quiet community villa steps from a green park and schools.", 980000m, "Abu Dhabi", "Khalifa City", PropertyType.Villa, PropertyStatus.Sale, Furnishing.SemiFurnished, 4, 4, 3800, new[] { "Garden", "Parking", "Club House", "Security" })
-        };
+        string ImageUrl(int n) => $"{baseUrl}/uploads/dummy/{n}.jpg";
 
-        var index = 1;
-        foreach (var s in samples)
+        foreach (var p in Properties)
         {
-            // Each seeded property gets only its own sample photo (samples/{index}.jpg).
-            // A previous version also attached samples/{index+1}.jpg as a "second" photo,
-            // which meant every listing showed an unrelated property's picture alongside
-            // its own — there's only one genuine photo per sample, so don't pad with
-            // another listing's image just to have a gallery.
-            var imageUrl = $"{baseUrl}/uploads/samples/{index}.jpg";
-
             context.Properties.Add(new Property
             {
-                Title = s.Item1,
-                Description = s.Item2,
-                Price = s.Item3,
-                City = s.Item4,
-                Area = s.Item5,
-                PropertyType = s.Item6,
-                Status = s.Item7,
-                Furnishing = s.Item8,
-                Bhk = s.Item9,
-                Bathrooms = s.Item10,
-                AreaSize = s.Item11,
-                Amenities = s.Item12.ToList(),
-                Views = 0,
+                Title = p.Title,
+                Description = p.Description,
+                Price = p.Price,
+                City = p.City,
+                Area = p.Area,
+                PropertyType = p.Type,
+                Status = p.Status,
+                Furnishing = p.Furnishing,
+                Bhk = p.Bhk,
+                Bathrooms = p.Bathrooms,
+                AreaSize = p.AreaSize,
+                Amenities = p.Amenities.ToList(),
+                Views = p.Views,
                 UserId = owner.Id,
                 PropertyImgs = new List<PropertyImg>
                 {
-                    new() { ImgUrl = imageUrl, IsPrimary = true }
+                    new() { ImgUrl = ImageUrl(p.Image1), IsPrimary = true },
+                    new() { ImgUrl = ImageUrl(p.Image2), IsPrimary = false },
+                    new() { ImgUrl = ImageUrl(p.Image3), IsPrimary = false }
                 }
             });
-            index++;
         }
 
         await context.SaveChangesAsync();
