@@ -44,12 +44,27 @@ const PropertyDetails = () => {
   const [isInWishlist, setIsInWishlist] = useState(false);
 
   useEffect(() => {
+    // Navigating from one property's detail page straight to another (e.g. via a
+    // "Similar Properties" card) reuses this same component instance — only the
+    // `id` param changes. Without a guard, a slow response for the property you
+    // just left can resolve after the new one and overwrite it, so you'd see a
+    // different property's images under the property you're now viewing.
+    let cancelled = false;
+
     const fetchDetails = async () => {
       try {
         setLoading(true);
+        // Clear the previous property immediately so nothing stale can be shown
+        // for the new id while the fresh data is still loading.
+        setProperty(null);
+        setSimilarProperties([]);
+        setIsInWishlist(false);
+
         const res = await axios.get(`${API_URL}/api/property/${id}`, {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
+
+        if (cancelled) return;
 
         // لازم يكون فيه property فعلي جوه الرد، وإلا نعتبره فشل ونروح على الـ dummy data
         const fetchedProperty =
@@ -73,6 +88,7 @@ const PropertyDetails = () => {
             const wishRes = await axios.get(`${API_URL}/api/wishlist`, {
               headers: { Authorization: `Bearer ${token}` },
             });
+            if (cancelled) return;
             const found = Array.isArray(wishRes.data)
               ? wishRes.data.some(
                   (item) => String(item.property?._id) === String(id),
@@ -86,6 +102,8 @@ const PropertyDetails = () => {
 
         setError(null);
       } catch (err) {
+        if (cancelled) return;
+
         console.warn(
           "No backend available or property not found via API — checking dummy data.",
           err,
@@ -106,10 +124,14 @@ const PropertyDetails = () => {
           setError("Property not found.");
         }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
     fetchDetails();
+
+    return () => {
+      cancelled = true;
+    };
   }, [id, user, token]);
 
   //  to handle wishlist toggle (optimistic: flip immediately, revert on failure)
