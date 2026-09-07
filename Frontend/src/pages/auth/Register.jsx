@@ -3,6 +3,7 @@ import { registerStyles as s } from "../../assets/dummyStyles";
 import { useAuth } from "../../context/AuthContext";
 import Navbar from "../../components/common/Navbar";
 import { Link, useNavigate } from "react-router-dom";
+import { isValidName } from "../../utils/validation";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
 const Register = () => {
@@ -47,6 +48,10 @@ const Register = () => {
     setError("");
     setSuccess("");
 
+    if (!isValidName(formData.name)) {
+      setError("Please enter a real name, not numbers.");
+      return;
+    }
     if (formData.password.length < 8) {
       setError("Password must be at least 8 characters.");
       return;

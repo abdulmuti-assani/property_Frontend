@@ -26,12 +26,12 @@ public class UserService : IUserService
 
         if (!string.IsNullOrWhiteSpace(request.Name))
         {
-            var (firstName, lastName) = UserMappings.SplitName(request.Name);
+            var (firstName, lastName) = UserMappings.SplitName(InputValidation.ValidateName(request.Name));
             profile.FirstName = firstName;
             profile.LastName = lastName;
         }
 
-        profile.Phone = string.IsNullOrWhiteSpace(request.Phone) ? null : request.Phone.Trim();
+        profile.Phone = InputValidation.ValidatePhone(request.Phone);
         profile.Address = string.IsNullOrWhiteSpace(request.Address) ? null : request.Address.Trim();
 
         if (request.RemoveProfilePic)

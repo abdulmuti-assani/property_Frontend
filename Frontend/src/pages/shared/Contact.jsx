@@ -5,6 +5,11 @@ import API_URL from "../../config";
 import axios from "axios";
 import Navbar from "../../components/common/Navbar";
 import {
+  isValidName,
+  isValidPhone,
+  sanitizePhoneInput,
+} from "../../utils/validation";
+import {
   HiOutlineAnnotation,
   HiOutlineCheckCircle,
   HiOutlineMail,
@@ -26,13 +31,28 @@ const Contact = () => {
 
   const [error, setError] = useState("");
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === "phone" ? sanitizePhoneInput(value) : value,
+    });
+    setError("");
   };
   //to submit the data to server side
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
+
+    if (!isValidName(formData.name)) {
+      setError("Please enter a real name, not numbers.");
+      return;
+    }
+    if (!isValidPhone(formData.phone)) {
+      setError("Please enter a valid phone number (7–15 digits, no letters).");
+      return;
+    }
+
+    setLoading(true);
     try {
       const res = await axios.post(`${API_URL}/api/contact`, formData);
       if (res.data.success) {

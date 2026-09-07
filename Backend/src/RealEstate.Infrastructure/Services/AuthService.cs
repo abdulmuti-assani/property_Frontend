@@ -40,6 +40,8 @@ public class AuthService : IAuthService
             _ => throw new InvalidOperationException("Role must be either 'buyer' or 'seller'.")
         };
 
+        var name = InputValidation.ValidateName(request.Name);
+
         if (await _userManager.FindByEmailAsync(request.Email) is not null)
             throw new InvalidOperationException("Email is already registered.");
 
@@ -60,7 +62,7 @@ public class AuthService : IAuthService
         if (!roleResult.Succeeded)
             throw new InvalidOperationException(string.Join(", ", roleResult.Errors.Select(e => e.Description)));
 
-        var (firstName, lastName) = UserMappings.SplitName(request.Name);
+        var (firstName, lastName) = UserMappings.SplitName(name);
 
         _context.UserProfiles.Add(new User
         {

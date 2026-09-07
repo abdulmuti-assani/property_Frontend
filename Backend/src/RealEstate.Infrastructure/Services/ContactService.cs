@@ -13,16 +13,14 @@ public class ContactService : IContactService
 
     public async Task CreateAsync(CreateContactRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.Name) ||
-            string.IsNullOrWhiteSpace(request.Email) ||
-            string.IsNullOrWhiteSpace(request.Message))
+        if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Message))
             throw new InvalidOperationException("Name, email and message are required.");
 
         _context.ContactMessages.Add(new ContactMessage
         {
-            Name = request.Name.Trim(),
+            Name = InputValidation.ValidateName(request.Name),
             Email = request.Email.Trim(),
-            Phone = string.IsNullOrWhiteSpace(request.Phone) ? null : request.Phone.Trim(),
+            Phone = InputValidation.ValidatePhone(request.Phone),
             Message = request.Message.Trim(),
             Role = string.IsNullOrWhiteSpace(request.Role) ? "buyer" : request.Role.Trim().ToLowerInvariant()
         });

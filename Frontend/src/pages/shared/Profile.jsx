@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import Navbar from "../../components/common/Navbar";
 import axios from "axios";
 import API_URL from "../../config";
+import { isValidName, isValidPhone } from "../../utils/validation";
 import {
   HiCheck,
   HiOutlineLocationMarker,
@@ -47,8 +48,18 @@ const Profile = () => {
   //to update your profile
   const handleUpdate = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
+
+    if (!isValidName(formData.name)) {
+      setError("Please enter a real name, not numbers.");
+      return;
+    }
+    if (!isValidPhone(formData.phone)) {
+      setError("Please enter a valid phone number (7–15 digits, no letters).");
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const data = new FormData();
