@@ -391,20 +391,20 @@ const LandingPage = () => {
             {[
               {
                 step: "01",
-                title: "Smart Search",
-                desc: "Leverage our AI-driven Smart Search algorithms to find the best property matches tailored to your specific preferences.",
+                title: "Search & Filter",
+                desc: "Browse verified listings and narrow things down with smart filters for price, location, type, and amenities.",
                 icon: <HiLightningBolt size={32} />,
               },
               {
                 step: "02",
-                title: "Virtual Tours",
-                desc: "Experience your future home from anywhere with our high-definition 3D virtual tours and immersive walkthroughs.",
+                title: "Tour & Compare",
+                desc: "Take a high-definition 3D virtual tour or schedule an in-person visit, then compare your shortlist side by side.",
                 icon: <HiVideoCamera size={32} />,
               },
               {
                 step: "03",
-                title: "Verified Trust",
-                desc: "Every listing is strictly audited for ownership and condition, ensuring your peace of mind and a secure transaction.",
+                title: "Connect & Close",
+                desc: "Reach the owner directly through the platform and finalize your move with confidence and full transparency.",
                 icon: <HiShieldCheck size={32} />,
               },
             ].map((p, idx) => (
