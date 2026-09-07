@@ -48,9 +48,10 @@ const PropertyCard = ({
 
   const formattedPrice = formatPrice(property.price);
 
-  const statusBadgeClass = s.badgeStatus
-    ? s.badgeStatus(property.status || "sale")
-    : "";
+  const status = (property.status || "sale").toLowerCase();
+  const statusBadgeClass = s.badgeStatus ? s.badgeStatus(status) : "";
+  const statusLabel =
+    status === "sold" ? "Sold" : status === "rent" ? "For Rent" : "Available";
 
   const isCommercial =
     (property.propertyType || "").toLowerCase() === "commercial";
@@ -69,16 +70,16 @@ const PropertyCard = ({
             }}
           />
 
+          {status === "sold" && (
+            <div className={s.soldOverlay}>
+              <span className={s.soldOverlayText}>SOLD</span>
+            </div>
+          )}
+
           {/* top badges */}
           <div className={s.topBadges}>
             <div className={s.badgesLeft}>
-              {renderActions ? (
-                <span className={statusBadgeClass}>
-                  {property.status === "sale" ? "available" : property.status}
-                </span>
-              ) : (
-                <span className={s.badgeNew}>New</span>
-              )}
+              <span className={statusBadgeClass}>{statusLabel}</span>
               <span className={s.badgeVerified}>
                 <HiShieldCheck size={14} /> Verified
               </span>

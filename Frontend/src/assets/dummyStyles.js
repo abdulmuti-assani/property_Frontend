@@ -1068,9 +1068,13 @@ export const propertyDetailsStyles = {
   infoColumn: "info-column min-w-0",
   infoHeader: "mb-8",
   titleWrapper: "min-w-0 flex-1",
-  badgeWrapper: "flex gap-2 flex-wrap",
+  badgeWrapper: "flex gap-2 flex-wrap mb-3",
   premiumBadge:
-    "py-1.5 px-4 rounded-lg border border-primary text-primary text-xs font-bold uppercase inline-block mb-3",
+    "py-1.5 px-4 rounded-lg border border-primary text-primary text-xs font-bold uppercase inline-block",
+  soldBadge:
+    "py-1.5 px-4 rounded-lg bg-[#64748b] text-white text-xs font-extrabold uppercase inline-block tracking-wider",
+  rentBadge:
+    "py-1.5 px-4 rounded-lg bg-[#10b981] text-white text-xs font-extrabold uppercase inline-block tracking-wider",
   propertyTitle:
     "property-title text-[2.5rem] font-extrabold text-text-main mb-2 tracking-tight max-[768px]:text-[2rem] max-[480px]:text-[1.75rem] break-words whitespace-normal leading-tight",
   propertyLocation:
@@ -1477,6 +1481,10 @@ export const propertyCardStyles = {
   imageSection: "relative h-[220px] overflow-hidden shrink-0",
   image:
     "w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105",
+  soldOverlay:
+    "absolute inset-0 z-20 flex items-center justify-center bg-black/45 pointer-events-none",
+  soldOverlayText:
+    "text-white text-2xl font-extrabold tracking-[0.25em] border-4 border-white rounded-lg px-5 py-1.5 -rotate-12",
   topBadges:
     "absolute top-4 left-4 right-4 flex justify-between items-center z-10",
   badgesLeft: "flex gap-2",

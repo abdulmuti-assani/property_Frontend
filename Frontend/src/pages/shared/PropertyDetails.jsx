@@ -331,7 +331,13 @@ const PropertyDetails = () => {
             <div className={s.infoHeader}>
               <div className={s.titleWrapper}>
                 <div className={s.badgeWrapper}>
-                  <span className={s.premiumBadge}>Premium Listing</span>
+                  {property.status?.toLowerCase() === "sold" ? (
+                    <span className={s.soldBadge}>Sold</span>
+                  ) : property.status?.toLowerCase() === "rent" ? (
+                    <span className={s.rentBadge}>For Rent</span>
+                  ) : (
+                    <span className={s.premiumBadge}>Premium Listing</span>
+                  )}
                 </div>
                 <h1 className={s.propertyTitle}>{property.title}</h1>
                 <p className={s.propertyLocation}>
@@ -543,7 +549,15 @@ const PropertyDetails = () => {
                   : "—",
               },
               { label: "Property Type", value: property.propertyType },
-              { label: "Status", value: `For ${property.status || "Sale"}` },
+              {
+                label: "Status",
+                value:
+                  property.status?.toLowerCase() === "sold"
+                    ? "Sold"
+                    : property.status?.toLowerCase() === "rent"
+                      ? "For Rent"
+                      : "For Sale",
+              },
             ].map((detail, i) => (
               <div key={i} className={s.detailRow}>
                 <span className={s.detailValue}>{detail.label}</span>
