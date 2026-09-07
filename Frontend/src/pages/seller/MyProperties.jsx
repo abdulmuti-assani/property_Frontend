@@ -137,7 +137,6 @@ const MyProperties = () => {
                             <HiOutlineCheckCircle size={14} />
                           </div>
                         </div>
-                        A
                         <Link
                           to={`/edit-property/${p._id}`}
                           className={s.editButton}
